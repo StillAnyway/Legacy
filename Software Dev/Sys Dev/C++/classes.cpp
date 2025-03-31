@@ -6,27 +6,27 @@
 
 class Hollow_Knight {
 	private:
-		// Add _ suffix to private variables
-		int level_;
-		std::string name_;
+		// Add __ prefix to private variables
+		int __level;
+		std::string __name;
 	public:
 		// This is member initialisation list constructor
-		Hollow_Knight(int level, std::string name) : level_(level), name_(name.append("_san")){}
+		Hollow_Knight(int level, std::string name) : __level(level), __name(name.append("_san")){}
 
 		// This is destructor
-		~Hollow_Knight(){std::cout<<this->get_name()<<" destroyed\n";}
+		~Hollow_Knight(){std::cout<<this->name()<<" destroyed\n";}
 
 		// Prefer declaring methods as const
-		int get_level() const {return this->level_;}
+		int level() const {return this->__level;}
 
-		virtual std::string get_name(){
-			return this->name_;
+		virtual std::string name(){
+			return this->__name;
 		}
 
 		// Operator overloading
 		Hollow_Knight operator+(const Hollow_Knight &h){
-			Hollow_Knight returner(0, this->get_name().append(h.name_));
-			returner.level_ = h.get_level()+this->get_level();
+			Hollow_Knight returner(0, this->name().append(h.__name));
+			returner.__level = h.level()+this->level();
 			return returner;
 		}
 };
@@ -41,7 +41,7 @@ class Enemy: private Hollow_Knight {
 		Enemy(int level) : Hollow_Knight(level, ""){}
 
 		// Overriding base class function
-		std::string get_name(){return "Enemy";}
+		std::string name(){return "Enemy";}
 };
 
 int main(){
@@ -52,13 +52,13 @@ int main(){
 	Enemy e = 5;
 
 	// I am going to prefer the first one and the second one
-	std::cout<<hk.get_name()<<std::endl;
-	std::cout<<p->get_level()<<") "<<e.get_name()<<std::endl;
+	std::cout<<hk.name()<<std::endl;
+	std::cout<<p->level()<<") "<<e.name()<<std::endl;
 
 	// Operator Overloading in action
 	Hollow_Knight hk2(5, "_appended");
 	Hollow_Knight hk_add = hk+hk2;
-	std::cout<<hk_add.get_name()<<" "<<hk_add.get_level()<<std::endl;
+	std::cout<<hk_add.name()<<" "<<hk_add.level()<<std::endl;
 
 	return 0;
 }
